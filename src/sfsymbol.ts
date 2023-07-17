@@ -2,6 +2,8 @@ import { exec } from 'child_process';
 import { join } from 'path';
 import { nativeImage } from 'electron';
 import type { SFSymbol as eSymbol } from 'sf-symbols-typescript';
+import { SfNamedColor } from './colors';
+import { processColor } from './color';
 
 export type SfSymbol = eSymbol;
 
@@ -22,10 +24,24 @@ export interface SfSymbolOptions {
   weight?: SfSymbolWeight;
   variable?: number;
   mode?: SfSymbolMode;
-  primary?: string;
-  secondary?: string;
-  tertiary?: string;
+  primary?: SfSymbolColor;
+  secondary?: SfSymbolColor;
+  tertiary?: SfSymbolColor;
 }
+
+export type SfHexColor = `#${string}`;
+
+export type SfSymbolColor =
+  | SfNamedColor
+  | SfHexColor
+  | {
+      r: number;
+      g: number;
+      b: number;
+      a?: number;
+    }
+  | [number, number, number, number]
+  | [number, number, number];
 
 // 2. size (int)
 // 3. weight (enum)
@@ -42,13 +58,16 @@ const getSfSymbol = (name: SfSymbol, options: SfSymbolOptions = {}, binaryPath?:
     options.weight ?? 'monochrome',
     options.variable ?? 1,
     options.mode ?? 'palette',
-    options.primary ?? '000000',
-    options.secondary ?? '000000',
-    options.tertiary ?? '000000',
+    processColor(options.primary ?? '#000'),
+    options.secondary && processColor(options.secondary ?? '#000'),
+    (options.tertiary ?? options.secondary) && processColor(options.tertiary ?? options.secondary ?? '#000'),
   ];
 
   return new Promise((res) => {
-    const command = `${binary} ${params.map((p) => `"${p}"`).join(' ')} `;
+    const command = `${binary} ${params
+      .filter(Boolean)
+      .map((p) => `"${p}"`)
+      .join(' ')} `;
 
     exec(command, async (error, stdout) => {
       if (error) {

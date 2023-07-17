@@ -94,6 +94,13 @@ The symbols can accept either `rgba` colors, hex or css colors.
 
 **Please note:** For unrecognised or malformed colors the package throws an `UNRECOGNISED_COLOR` error.
 
+|       Primary Color        |           Secondary Color          |  Tertiary Color |                  Result                  |
+| :------------------------: | :--------------------------------: | :-------------: | :--------------------------------------: |
+|         `#EF2D56`          |            `#ED7D3A33`             |        -        |  ![Hex](/images/example-colors-hex.png)  |
+| `{ r: 239, g: 45, b: 86 }` | `{ r: 237, g: 125, b:58, a: 0.4 }` |        -        |  ![Rgb](/images/example-colors-rgb.png)  |
+|      `[239, 45, 86]`       |       `[237, 125, 58, 0.4]`        |        -        | ![Rgb](/images/example-colors-array.png) |
+|           `red`            |              `orange`              |        -        | ![Rgb](/images/example-colors-named.png) |
+
 ### Modes
 
 | Mode code        |  Description                                       |                      Example                      |
