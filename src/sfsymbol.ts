@@ -1,9 +1,9 @@
 import { exec } from 'child_process';
-import { join } from 'path';
 import { nativeImage } from 'electron';
+import { join } from 'path';
 import type { SFSymbol as eSymbol } from 'sf-symbols-typescript';
-import { SfNamedColor } from './colors';
 import { processColor } from './color';
+import { SfNamedColor } from './colors';
 
 export type SfSymbol = eSymbol;
 
@@ -65,7 +65,7 @@ const getSfSymbol = (name: SfSymbol, options: SfSymbolOptions = {}, binaryPath?:
 
   return new Promise((res) => {
     const command = `${binary} ${params
-      .filter(Boolean)
+      .filter((p) => p !== undefined && p !== null && p !== '' && (p as any) !== false)
       .map((p) => `"${p}"`)
       .join(' ')} `;
 

@@ -1,6 +1,6 @@
 <p align="center">
  <!-- <img width="100px" src="https://raw.githubusercontent.com/szalaybalazs/electron-sfsymbols/main/.github/images/favicon512x512-npm.png" align="center" alt=":package: ts-npm-package-boilerplate" /> -->
- <h2 align="center">:package: electron-sfsymbol</h2>
+ <h2 align="center">:package: electron-sfsymbols</h2>
  <p align="center">Use SF Symbols in electron applications</p>
   <p align="center">
     <a href="https://github.com/szalaybalazs/electron-sfsymbols/issues">
@@ -141,7 +141,7 @@ const options: SfSymbolOptions = {
 };
 ```
 
-4. **multicolor**
+Multicolor
 
 ```ts
 const options: SfSymbolOptions = {
