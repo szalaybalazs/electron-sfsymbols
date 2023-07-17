@@ -1,13 +1,22 @@
-import uuid from '../index';
+import sfsymbol, { getSfSymbol } from '../index';
+import path from 'path';
+import fs from 'fs';
 
-describe('valid UUID', () => {
-  let VALID_UUID_REGEX: RegExp;
+describe('symbols', () => {
+  test('folder', async () => {
+    console.time('generate');
+    const symbol = await getSfSymbol('folder');
+    console.timeEnd('generate');
 
-  beforeAll(() => {
-    VALID_UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    fs.writeFileSync(
+      path.join(__dirname, 'test.png'),
+      Buffer.from(symbol.replace(/^data:image\/png;base64,/, ''), 'base64'),
+    );
+    expect(symbol).toBeTruthy();
   });
+  test('native image', async () => {
+    const res = await sfsymbol.getNativeImage('folder');
 
-  test('should match a valid UUID', () => {
-    expect(VALID_UUID_REGEX.test(uuid.v4())).toBeTruthy();
+    expect(res.isEmpty()).toBeFalsy();
   });
 });
