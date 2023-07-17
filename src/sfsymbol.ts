@@ -18,10 +18,10 @@ export type SfSymbolWeight =
 export type SfSymbolMode = 'multicolor' | 'monochrome' | 'palette' | 'hierarchical';
 export interface SfSymbolOptions {
   size?: number;
+  scale?: number;
   weight?: SfSymbolWeight;
   variable?: number;
   mode?: SfSymbolMode;
-
   primary?: string;
   secondary?: string;
   tertiary?: string;
@@ -38,8 +38,8 @@ const getSfSymbol = (name: SfSymbol, options: SfSymbolOptions = {}, binaryPath?:
 
   const params = [
     name,
-    (options.size ?? 24) * 3,
-    options.weight ?? 'regular',
+    (options.size ?? 24) * (options.scale ?? 3),
+    options.weight ?? 'monochrome',
     options.variable ?? 1,
     options.mode ?? 'palette',
     options.primary ?? '000000',

@@ -43,15 +43,27 @@
 
 # Getting started
 
+Use any of the over 5,000 icons provided by  Apple in your macOS application.
+
+**Please note**: the package is only responsible to give you access to SF symbols on electron on macOS - the package does not handle different platforms and will likely produce errors on any other operating system than macOS.
+
+⚠️ **Legal** ⚠️: SF Symbols are strictly copyrighted by Apple ([read more here](https://developer.apple.com/design/human-interface-guidelines/sf-symbols)). This package is not intented to use the icons on any other platforms or in conflict with the guidelines provided by Apple Inc. This package generates the symbols on the fly, using rougly the same logic as the `Electron.NativeImage.fromNamedImage` API.
+
 ## Installation
 
 Install using your go-to package manager:
 
 `yarn add electron-sfsymbols`
 
-## Usage
+or
 
-Create an electron nativeImage from an sf symbol:
+`npm i -S electron-sfsymbols`
+
+## Usage
+
+### Basic usage with Electron's NativeImage
+
+Create a 24x24 pixel NativeImage from the specified SF Symbol
 
 ```ts
 import { getSfSymbolAsNativeImage } from 'electron-sfsymbols';
@@ -60,6 +72,103 @@ import { getSfSymbolAsNativeImage } from 'electron-sfsymbols';
 
 const image = getSfSymbolAsNativeImage('folder');
 ```
+
+### Advance Usage
+
+This package gives you access to all the basic options of SfSymbols:
+
+| Parameter | Description                                                                                              |      Type       |   Default    |
+| :-------- | :------------------------------------------------------------------------------------------------------- | :-------------: | :----------: |
+| size      | Size of the Symbol in pixels                                                                             |       Int       |     `24`     |
+| scale     | Scale of the Symbol, for retina displays. The resulting image will have the dimensions of `size * scale` |       Int       |     `3`      |
+| weight    |  Weight of the Symbol                                                                                    |  SfSymbolWeight |  `regular`   |
+| mode      |  Rendering mode of the symbol                                                                            |   SfSymbolMode  | `monochrome` |
+| variable  | Controls the variable property of the symbol                                                             |   Float (0-1)   |    `1.0 `    |
+| primary   |  Primary color of the symbol                                                                             |  SfSymbolColor  |  `#0000000`  |
+| secondary | Secondary color of the symbol                                                                            |  SfSymbolColor  |  `#0000000`  |
+| Tertiary  | Tertiary color of the symbol                                                                             |  SfSymbolColor  |  `#0000000`  |
+
+### Colors
+
+The symbols can accept either `rgba` colors, hex or css colors.
+
+**Please note:** For unrecognised or malformed colors the package throws an `UNRECOGNISED_COLOR` error.
+
+### Modes
+
+| Mode code        |  Description                                       |                      Example                      |
+| :--------------- | :------------------------------------------------- | :-----------------------------------------------: |
+| **monochrome**   | The default rendering mode for the symbols         |   ![Monochrome](/images/example-monochrome.png)   |
+| **palette**      | Define a range of colors for the symbol            |      ![Palette](/images/example-palette.png)      |
+| **hierarchical** | Let the symbol decide the hierarchy of the colors  | ![Hierarchical](/images/example-hierarchical.png) |
+| **multicolor**   | Use the multicolor version of the symbol           |   ![Multicolor](/images/example-multicolor.png)   |
+
+**Configurations used for the examples:**
+
+Monochrome:
+
+```ts
+const options: SfSymbolOptions = {
+  mode: 'monochrome',
+  primary: '00000000',
+};
+```
+
+Palette:
+
+```ts
+const options: SfSymbolOptions = {
+  mode: 'palette',
+  primary: 'FFFFFFFF',
+  secondary: '00FF00FF',
+  tertiary: '00FF00FF',
+};
+```
+
+Hierarchical:
+
+```ts
+const options: SfSymbolOptions = {
+  mode: 'multicolor',
+  primary: '00000000',
+};
+```
+
+4. **multicolor**
+
+```ts
+const options: SfSymbolOptions = {
+  mode: 'multicolor',
+};
+```
+
+### Variable Symbols
+
+Many of the SF Symbols are variable icons - these symbols can be controlled using the `variable` option; a float between 0 and 1.
+
+**Examples:**
+
+| Variable |                      Example                      |
+| :------- | :-----------------------------------------------: |
+| `1.0`    |   ![Variable-1](/images/example-variable-100.png) |
+| `0.5`    |   ![Variable-1](/images/example-variable-50.png)  |
+| `0.0`    |    ![Variable-1](/images/example-variable-0.png)  |
+
+### Weights
+
+Sf Symbols support 8 weights other than the regular one
+
+| Weight       |                    Example                     |
+| :----------- | :--------------------------------------------: |
+| `ultralight` |  ![ultralight](/images/example-ultralight.png) |
+| `thin`       |        ![thin](/images/example-thin.png)       |
+| `light`      |       ![light](/images/example-light.png)      |
+| `regular`    |     ![regular](/images/example-regular.png)    |
+| `medium`     |      ![medium](/images/example-medium.png)     |
+| `semibold`   |    ![semibold](/images/example-semibold.png)   |
+| `bold`       |        ![bold](/images/example-bold.png)       |
+| `heavy`      |       ![heavy](/images/example-heavy.png)      |
+| `black`      |       ![black](/images/example-black.png)      |
 
 ## 🤝 Contributing
 
