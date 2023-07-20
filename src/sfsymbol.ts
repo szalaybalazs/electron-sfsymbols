@@ -4,8 +4,10 @@ import { join } from 'path';
 import type { SFSymbol as eSymbol } from 'sf-symbols-typescript';
 import { processColor } from './color';
 import { SfNamedColor } from './colors';
+import { getResourcesDirectory } from './resources';
+import { SfSymbols } from './symbols';
 
-export type SfSymbol = eSymbol;
+export type SfSymbol = (typeof SfSymbols)[number];
 
 export type SfSymbolWeight =
   | 'ultralight'
@@ -50,7 +52,7 @@ export type SfSymbolColor =
 // todo: parse colors
 
 const getSfSymbol = (name: SfSymbol, options: SfSymbolOptions = {}, binaryPath?: string): Promise<string> => {
-  const binary = binaryPath ?? join(__dirname, '/bin/sfsymbol');
+  const binary = binaryPath ?? join(getResourcesDirectory(), '/bin/sfsymbol');
 
   const params = [
     name,

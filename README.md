@@ -59,6 +59,19 @@ or
 
 `npm i -S electron-sfsymbols`
 
+Since the package uses a binary to generate the symbols, for it to work correctly the build options have to be updated.
+
+```yaml
+# electron-builder.yaml
+
+extraResources:
+  - ./resources/**
+  - from: node_modules/electron-sfsymbols/lib/bin/sfsymbol
+    to: bin/sfsymbol
+```
+
+The package will look for the binary at `resourcesPath/bin/sfsymbol` - this path can be manually changed by passing a third argument to any of the methods.
+
 ## Usage
 
 ### Basic usage with Electron's NativeImage
@@ -70,7 +83,23 @@ import { getSfSymbolAsNativeImage } from 'electron-sfsymbols';
 
 // ...
 
-const image = getSfSymbolAsNativeImage('folder');
+const image = getSfSymbolAsNativeImage('folder', { mode: 'palette', weight: 'black' });
+```
+
+### Usage with custom binary
+
+Specify the path to the binary
+
+```ts
+import { getSfSymbolAsNativeImage } from 'electron-sfsymbols';
+
+// ...
+
+const image = getSfSymbolAsNativeImage(
+  'folder',
+  { mode: 'palette', weight: 'black' },
+  join(getResourcesDirectory(), 'sfsymbol'),
+);
 ```
 
 ### Advance Usage
