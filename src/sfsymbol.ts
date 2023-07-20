@@ -1,7 +1,6 @@
 import { exec } from 'child_process';
 import { nativeImage } from 'electron';
 import { join } from 'path';
-import type { SFSymbol as eSymbol } from 'sf-symbols-typescript';
 import { processColor } from './color';
 import { SfNamedColor } from './colors';
 import { getResourcesDirectory } from './resources';
